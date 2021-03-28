@@ -15,8 +15,16 @@ class App extends React.Component {
     });
     console.log("AFTER", this.props.store.getState());
   }
+
   render() {
-    const { list } = this.props.store.getState();
+    const { showFavourites, favourites, list } = this.props.store.getState();
+    var displayList;
+    {
+      showFavourites ? (displayList = favourites) : (displayList = list);
+    }
+
+    console.log("RENDER");
+    console.log(this.props.store.getState());
     return (
       <div className="App">
         <Navbar />
@@ -26,8 +34,10 @@ class App extends React.Component {
             <div className="tab">Favourites</div>
           </div>
           <div className="list">
-            {list.map((movie, index) => {
-              return <MovieCard movie={movie} key={index} />;
+            {displayList.map((movie, index) => {
+              return (
+                <MovieCard movie={movie} key={index} store={this.props.store} />
+              );
             })}
           </div>
         </div>
